@@ -1,0 +1,13 @@
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\bin\Debug\veriproje2.exe.config
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\bin\Debug\veriproje2.exe
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\bin\Debug\veriproje2.pdb
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\obj\Debug\veriproje2.csprojAssemblyReference.cache
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\obj\Debug\veriproje2.Form1.resources
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\obj\Debug\veriproje2.Properties.Resources.resources
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\obj\Debug\veriproje2.csproj.GenerateResource.cache
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\obj\Debug\veriproje2.csproj.CoreCompileInputs.cache
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\obj\Debug\veriproje2.exe
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\obj\Debug\veriproje2.pdb
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\bin\Debug\itextsharp.dll
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\bin\Debug\itextsharp.xml
+C:\Users\muvaf\Documents\Visual Studio 2017\Projects\veriproje2\veriproje2\obj\Debug\veriproje2.csproj.CopyComplete

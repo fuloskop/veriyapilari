@@ -1,0 +1,423 @@
+Ödev_2 
+-----
+cout
+1. Soru  TURHAN
+------
+#include <iostream>
+
+
+
+using namespace std;
+
+struct node {
+	int data;
+	node *next;
+};
+
+node *ekle(node *r, int x) {
+	if (r == NULL) {
+		r = new node;
+		r->data = x;
+		r->next = NULL;
+	}
+	else
+	{
+		node *yrd;
+		yrd = r;
+		while (yrd->next != NULL)
+			yrd = yrd->next;
+		yrd->next = new node;
+		yrd->next->data = x;
+		yrd->next->next = NULL;
+		yrd = NULL;
+		delete yrd;
+	}
+	return r;
+}
+
+
+
+
+node *duzgunekle(node *r, int x) {
+	if (r == NULL) {
+		r = new node;
+		r->data = x;
+		r->next = NULL;
+	}
+	else
+	{
+		node *yrd = new node;
+		yrd = r;
+		int i = 0;
+		while (yrd->data < x)
+		{
+			yrd = yrd->next;
+			i++;
+			if (yrd == NULL)
+			{
+				yrd = ekle(yrd, x);
+			}
+		}
+		if(i==0)
+		{
+			node *yrd2;
+			yrd2 = new node;
+			yrd2->data = x;
+			yrd2->next = r;
+			r = yrd2;
+			yrd2 = NULL;
+			delete yrd2;
+
+		}
+		else {
+		yrd = r;  // yardımcı ile kendisinden küçük sayıyı bulduk ama tek bağlı listede önceye gidemediğimiz için adım sayısını kaydettiriyoruz ve onun 1 eksik adımını uyguluyoruz
+		for (int k = 0; k < i - 1; k++)
+		{
+			yrd = yrd->next; //doğru noktayı bulduk oraya eklemek için fordan çıkıyor.
+		}
+		node *tmp;
+		tmp = new node;
+		tmp->data = x;
+		tmp->next = yrd->next;
+		yrd->next = tmp;
+		yrd = NULL;
+		tmp = NULL;
+		delete yrd, tmp;
+		}
+	}
+
+
+	return r;
+}
+
+void gezin(node *r) {
+	while (r != NULL)
+	{
+		cout << r->data << " ";
+		r = r->next;
+	}
+	system("pause");
+}
+
+void main() {
+
+	node *root;
+	root = NULL;
+
+	for (int i = 1; i < 20; i++)
+		root = ekle(root, i * 4);
+
+
+	gezin(root);
+
+	root = duzgunekle(root, 19);
+	gezin(root);
+	root = duzgunekle(root, 1);
+	gezin(root);
+	root = duzgunekle(root, 250);
+	gezin(root);
+	root = duzgunekle(root, 4);
+	gezin(root);
+	root = duzgunekle(root, 14);
+	gezin(root);
+	root = duzgunekle(root, 15);
+
+	gezin(root);
+
+}
+----------------------------------------
+2. Soru
+----------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+struct node {
+	string data;
+	node *next;
+	node *prev;
+};
+
+node* ilknode(node *r, string x) {
+	r = new node;
+	r->data = x;
+	r->next = r;
+	r->prev = r;
+	return r;
+}
+
+node *ekle(node *r, string x) {
+	if (r == NULL)
+	{
+		r = ilknode(r, x);
+		return r;
+	}
+	else
+	{
+		r->prev->next = new node;
+		r->prev->next->next = r;
+		r->prev->next->prev = r->prev;
+		r->prev = r->prev->next;
+		r->prev->data = x;
+		return r;
+	}
+}
+
+
+
+void gezin(node *r) {
+	if (r == NULL)
+		cout << "liste bos";
+	else
+	{
+		node *yrd;
+		yrd = r;
+		while (yrd->next != r)
+		{
+			cout << yrd->data << " ";
+			yrd = yrd->next;
+		}
+		cout << yrd->data << endl;
+	}
+}
+
+node *getfile(node *r) {
+
+	ifstream file("data.txt");
+	string file_contents;
+	while (getline(file, file_contents))
+	{
+		r = ekle(r, file_contents);
+	}
+	file.close();
+	return r;
+}
+
+void delline(string deldata) {
+	string line;
+	ifstream fin;
+	fin.open("data.txt");
+	ofstream temp;
+	temp.open("temp.txt");
+
+	while (getline(fin, line)) {
+		if (line != deldata && !line.empty()) // silinecek satırı ayıklıyoruz
+			temp << line << endl;
+	}
+
+	cout << "Silme isleminiz tamamlandi kontrol ediniz." << endl;
+
+	temp.close();
+	fin.close();
+
+	remove("data.txt");
+	rename("temp.txt", "data.txt");
+}
+
+
+void varmi(string aranan) {
+	string line;
+	bool bulundu = false;
+	ifstream fin;
+	fin.open("data.txt");
+	int i = 0;
+	int bulundusira = 0;
+	while (getline(fin, line)) {
+		if (line == aranan && !line.empty()) { // dosya içerisinde ki her satırı fonksiyona gönderilen kelime ile karılaştırıyor.
+			bulundu = true; // bulduğu zaman false olan değeri true atarak dosya içerisinde sizin dosyanız olduğunu gösteriyor.
+			bulundusira = i;
+		}
+		i++;
+	}
+	cout << "------------------------------------------------------------------------------" << endl;
+	if (bulundu)
+		cout << "	Aradadiginiz kelime olan " << aranan << " " << bulundusira << " no lu satirda bulundu." << endl;
+	else
+		cout << "	Aradadiginiz kelime olan " << aranan << " bulunamadi." << endl;
+	cout << "------------------------------------------------------------------------------" << endl;
+}
+
+
+
+
+int main() {
+	node *root = NULL;
+
+	root=getfile(root); // rootun içini txt dosyasından dolduruyor.
+
+	bool devam = true;
+	char hareket = '0'; 
+	node *yrd;
+	yrd = root;
+	
+	while (devam)
+	{
+		cout << "------------------------------------------------------------------------------" << endl;
+		cout << "		Uzerinde bulundugunuz veri : " << yrd->data << endl;
+		cout << "------------------------------------------------------------------------------" << endl;
+		cout << "Ileri gitmek icin \"NEXT\" N yazin geri gitmek icin \"PREV\" P yazip entera basin (cikmak icin X yazin)" << endl;
+		cin >> hareket;
+		hareket = toupper(hareket); // tuşlama yaparken büyük küçük harf sorunları yaşanmasın diye kendisi büyütüyor.
+	
+		switch (hareket)
+		{
+		case 'N':
+			yrd=yrd->next;
+			break;
+		case 'P':
+			yrd = yrd->prev;
+			break;
+		case 'X':
+			devam = false;
+			break;
+		default:
+			cout << " !!! Yanlis bir tuslama yaptiniz !!! " << endl;
+	
+		}
+	}
+
+	bool devam2 = true;
+	char hareket2 = '0';
+	string add,deldata,aranan;
+
+	while (devam2)
+	{
+
+		fstream filestr;
+		filestr.open("data.txt", fstream::in | fstream::out | fstream::app);
+
+		cout << "Veri uzerinde islemler: " << endl;
+		cout << "	1. Veri eklemek icin 1 yazin" << endl;
+		cout << "	2. Veri silmek icin 2 yazin" << endl;
+		cout << "	3. Veri aramak icin 3 yazin" << endl;
+		cout << " X. cikis icin X yazin" << endl;
+		cin >> hareket2;
+		if(hareket2=='x') // burda tek karakter x olduğu için 1 2 3 etkilenmesin diye sadece x geldiğinde karakteri büyütüyoruz
+			hareket2 = toupper(hareket2);
+
+		switch (hareket2)
+		{
+		case '1':
+			cout << "Eklenecek veriyi yazin (kucuk harflerle) :" << endl;
+			cin >> add;
+			filestr << add << endl; // dosyanın sonuna eklediğiniz veriyi ekliyor.
+			cout << "---->Eklemek istediginiz "<< add << " verisi eklenmistir." << endl;
+			break;
+		case '2':
+			filestr.close();
+			cout << "Silinecek veriyi yazin (kucuk harflerle) :" << endl;
+			cin >> deldata;
+			delline(deldata); // silme fonksiyonumuza yazdığınız string değeri silinmesi için gönderiyor
+			break;
+		case '3':
+			cout << "Aramak istediğiniz veriyi yazin (kucuk harflerle):" << endl;
+			cin >> aranan; 
+			varmi(aranan);
+			break;
+		case 'X':
+			devam2 = false;
+			break;
+		default:
+			cout << "Yanlış bir tuşlama yaptınız " << endl;
+
+		}
+	}
+
+	
+
+	system("pause");
+	root = NULL;  //rootumuzu dosyanın son hali ile doldurmak için boşaltıyoruz.
+	root = getfile(root); // rootumuzu dosyanın son hali ile dolduruyoruz.
+	cout << "Dosyamizin son hali asagidaki gibidir : " << endl;
+
+	gezin(root);
+	system("pause");
+
+}
+----------------------------------------
+data.txt  (son satırın altında 1 boş satır olması gerekiyor)
+----------------------------------------
+adana
+adiyaman
+afyonkarahisar
+agri
+amasya
+ankara
+antalya
+artvin
+aydin
+balikesir
+bilecik
+bingol
+bitlis
+bolu
+burdur
+bursa
+canakkale
+cankiri
+corum
+denizli
+diyarbakir
+edirne
+elazig
+erzincan
+erzurum
+eskisehir
+gaziantep
+giresun
+gumushane
+hakkari
+hatay
+isparta
+mersin
+istanbul
+izmir
+kars
+kastamonu
+kayseri
+kirklareli
+kirsehir
+kocaeli
+konya
+kutahya
+malatya
+manisa
+kahramanmaras
+mardin
+mugla
+mus
+nevsehir
+nigde
+ordu
+rize
+sakarya
+samsun
+siirt
+sinop
+sivas
+tekirdag
+tokat
+trabzon
+tunceli
+sanliurfa
+usak
+van
+yozgat
+zonguldak
+aksaray
+bayburt
+karaman
+kirikkale
+batman
+sirnak
+bartin
+ardahan
+igdir
+yalova
+karabuk
+kilis
+osmaniye
+duzce
